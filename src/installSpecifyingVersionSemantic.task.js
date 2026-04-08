@@ -11,7 +11,8 @@ module.exports = async () => {
     : `github:KeyBeyond/semantic-release#master`;
 
   const { stdout, stderr } = await exec(
-    `pnpm add ${pkg} --save-dev`,
+    'pnpm',
+    ['add', pkg, '--save-dev'],
     {
       cwd: path.resolve(__dirname, '..')
     }
