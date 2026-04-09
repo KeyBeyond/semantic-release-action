@@ -6,8 +6,7 @@ const inputs = require('./inputs.json');
 module.exports = async () => {
   const semantic_version = core.getInput(inputs.semantic_version);
 
-  // Opcjonalna walidacja (polecam)
-  if (semantic_version && !/^[a-zA-Z0-9._-]+$/.test(semantic_version)) {
+  if (semantic_version && /[\u0000-\u001F\u007F]/.test(semantic_version)) {
     throw new Error('Invalid semantic_version input');
   }
 

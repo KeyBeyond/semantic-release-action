@@ -2,8 +2,12 @@ const { spawn } = require('child_process');
 
 module.exports = (cmd, args = [], options = {}) =>
   new Promise((resolve, reject) => {
+    if (!Array.isArray(args)) {
+      return reject(new Error(`Invalid args passed to exec: ${args}`));
+    }
+
     const child = spawn(cmd, args, {
-      shell: false, // kluczowe — brak powłoki = brak injection
+      shell: false,
       ...options
     });
 
@@ -16,6 +20,10 @@ module.exports = (cmd, args = [], options = {}) =>
 
     child.stderr.on('data', data => {
       stderr += data.toString();
+    });
+
+    child.on('error', err => {
+      reject(err);
     });
 
     child.on('close', code => {
