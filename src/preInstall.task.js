@@ -14,7 +14,7 @@ module.exports = async extras => {
   const _extras = extras.replace(/['"]/g, '').replace(/[\n\r]/g, ' ');
   const silentFlag = process.env.RUNNER_DEBUG === '1' ? '' : '--silent';
 
-  const args = ['install', ..._extras.split(' '), '--no-audit'];
+  const args = ['install', ..._extras.split(/\s+/).filter(Boolean), '--no-audit'];
   if (silentFlag) {
     args.push(silentFlag);
   }
