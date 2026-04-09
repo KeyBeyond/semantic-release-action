@@ -6,6 +6,10 @@ const inputs = require('./inputs.json');
 module.exports = async () => {
   const semantic_version = core.getInput(inputs.semantic_version);
 
+  if (semantic_version && /[\u0000-\u001F\u007F]/.test(semantic_version)) {
+    throw new Error('Invalid semantic_version input');
+  }
+
   const pkg = semantic_version
     ? `github:KeyBeyond/semantic-release#${semantic_version}`
     : `github:KeyBeyond/semantic-release#master`;

@@ -14,9 +14,19 @@ module.exports = async extras => {
   const _extras = extras.replace(/['"]/g, '').replace(/[\n\r]/g, ' ');
   const silentFlag = process.env.RUNNER_DEBUG === '1' ? '' : '--silent';
 
-  const { stdout, stderr } = await exec(`npm install ${_extras} --no-audit ${silentFlag}`, {
-    cwd: path.resolve(__dirname, '..')
-  });
+  const args = ['install', ..._extras.split(/\s+/).filter(Boolean), '--no-audit'];
+  if (silentFlag) {
+    args.push(silentFlag);
+  }
+
+  const { stdout, stderr } = await exec(
+    'npm',
+    args,
+    {
+      cwd: path.resolve(__dirname, '..')
+    }
+  );
+
   core.debug(stdout);
   core.error(stderr);
 };
