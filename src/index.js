@@ -42,7 +42,7 @@ const release = async () => {
     ...handleRepositoryUrlOption()
   });
 
-  await cleanupNpmrc();
+  //await cleanupNpmrc();
   await windUpJob(result);
 };
 
